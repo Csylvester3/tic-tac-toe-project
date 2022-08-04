@@ -18,7 +18,7 @@ function init() {
     currentPlayer = FirstPlayer
 
 }
-function SetValueOnGameArray(TilesPlayed){
+function CanIWriteToGameTile(TilesPlayed){
     const CurrentTile = GameValue[TilesPlayed]  
 
     if (CurrentTile !== null) {
@@ -60,15 +60,18 @@ function CheckToSeeWhoWon() {
 }
 
 function isFirstRowAWin() {
+    const playersLetter = currentPlayer;
     // Checking to see if 1,2,3 are a match  
-
     const firstValue = GameValue[0]; /// z
-    const secondValue = GameValue[1] /// y
+    const secondValue = GameValue[1]; /// y
     const thirdValue = GameValue[2]; // x
 
     // const [firstValue, secondValue, thirdValue ] = GameValue;
-
-    if (firstValue === secondValue && secondValue === thirdValue) {
+    if (firstValue === null || secondValue === null || thirdValue === null) {
+        return;
+        
+    }
+    if (firstValue === playersLetter && secondValue === playerLetter && thirdValue === playerLetter) {
         console.log('they are all equal');
         return true;
     } else {
@@ -84,7 +87,10 @@ function isSecondRowAWin() {
     const FithValue = GameValue[4]
     const SixthValue = GameValue[5]
 
-    if (FourthValue === FithValue && FithValue === SixthValue) {
+    if (FourthValue === null || FithValue === null || SixthValue === null) {
+        return;
+    }
+    if (FourthValue === playersLetter && FithValue === playersLetter === SixthValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -98,9 +104,12 @@ function isThirdRowAWin() {
     seventhValue = GameValue[6]
     eightValue = GameValue[7]
     NinthValue = GameValue[8]
-
+    
+    if (seventhValue === null || eightValue === null || NinthValue === null) {
+        return;
+    }
     {
-        if (seventhValue === eightValue && eightValue === NinthValue) {
+        if (seventhValue === playersLetter && eightValue === playersLetter && NinthValue === playersLetter) {
             console.log('they are equal')
             return true
         }
@@ -112,8 +121,12 @@ function isThirdRowAWin() {
 }
 function isFirstColumnAWin() {
     const [firstValue, , , FourthValue, , , SixthValue] = GameValue
-
-    if (firstValue === FourthValue && FourthValue === SixthValue) {
+   
+    if (firstValue === null || FourthValue === null ||  SixthValue === null) {
+        return;
+        
+    }
+    if (firstValue === playersLetter && FourthValue === playersLetter && SixthValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -128,7 +141,11 @@ function isSecondColumnAWin() {
     FithValue = GameValue[4]
     eightValue = GameValue[7]
 
-    if (secondValue === FithValue && FithValue === eightValue) {
+    if (secondValue === null ||  FithValue === null ||  eightValue === null) {
+        return;
+        
+    }
+    if (secondValue === playersLetter && FithValue === playersLetter && eightValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -143,8 +160,12 @@ function isThirdColumnAWin() {
     thirdValue = GameValue[2]
     SixthValue = GameValue[5]
     NinthValue = GameValue[8]
-
-    if (thirdValue === SixthValue && SixthValue === NinthValue) {
+    
+    if (thirdValue === null ||  SixthValue === null ||  NinthValue === null) {
+        return;
+        
+    }
+    if (thirdValue === playersLetter && SixthValue === playersLetter && NinthValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -156,7 +177,12 @@ function isThirdColumnAWin() {
 }
 function isDiagonalLineOneAWin() {
     const [firstVale, , , , FithValue, , , , NinthValue] = GameValue
-    if (firstVale === FithValue && FithValue === NinthValue) {
+   
+    if (firstVale === null ||  FithValue === null ||  NinthValue === null) {
+        return;
+        
+    }
+    if (firstVale === playersLetter && FithValue === playersLetter && NinthValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -168,7 +194,12 @@ function isDiagonalLineOneAWin() {
 }
 function isDiagonalLineTwoAWin() {
     const [, , thirdValue, , FithValue, , seventhValue] = GameValue
-    if (thirdValue === FithValue && FithValue === seventhValue) {
+   
+    if (thirdValue === null ||  FithValue === null ||  seventhValue === null) {
+        return;
+        
+    }
+    if (thirdValue === playersLetter && FithValue === playersLetter && seventhValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -200,14 +231,17 @@ function OnTileClicked(NumberedTiles) {
 
     const ActiveTile = AllElemnts[NumberedTiles];
 
-  const CanWriteToTile = SetValueOnGameArray(NumberedTiles) 
+  const CanWriteToTile = CanIWriteToGameTile(NumberedTiles) 
     if (CanWriteToTile === false) {
         return;
     }
     ChangePlayerColor(ActiveTile);
 
     ChangeCurrentPlayer();
+    
+    SeeWhoIsTheWinner()
 
+    CheckIfXWinsOrO()
 }
 window.onload = load;
 
@@ -222,21 +256,37 @@ function ChangePlayerColor(activeTile) {
         activeTile.className = ['tile player-two-color'];
     }
 }
-function SeeWhoIsTheWinner() {
+function CheckIfXWinsOrO (){
+    debugger;
+    const WhoWinsXorO = CheckToSeeWhoWon(currentPlayer);
 
-    if (currentPlayer === CheckToSeeWhoWon) {
-        console.log('winner')
-        //return true
+    if (FirstPlayer !==  WhoWinsXorO) {
+        console.log('keep playing');
     }
-    else (currentPlayer !== CheckToSeeWhoWon);{
-        console.log('draw')
-        //return false
-        resetGame()
+    if (SecondPlayer !==  WhoWinsXorO) {
+        console.log('Keep playing');
     }
+    if (FirstPlayer ===  WhoWinsXorO) {
+        console.log('X wins!');
+    }
+    if (SecondPlayer ===  WhoWinsXorO) {
+        console.log('O wins ');
+    }
+    if (FirstPlayer && SecondPlayer !==  WhoWinsXorO) {
+        console.log('Draw!');
+    }
+}
+function SeeWhoIsTheWinner(CheckToSeeWhoWon) {
+console.log(GameValue)
+    if (CheckToSeeWhoWon) {
+        console.log('someone won')
+}
+    
 }
 function resetGame() {
     currentPlayer = '';
 }
+
 
 
 //module.exports = {    
