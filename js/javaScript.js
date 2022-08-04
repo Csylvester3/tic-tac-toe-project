@@ -43,20 +43,45 @@ function setGameValue(myArray) {
 function CheckToSeeWhoWon() {
     const answerForRowOne = isFirstRowAWin();
     console.log('answerForRowOne', answerForRowOne);
+
+    if (answerForRowOne) {
+        return true
+    }
     const answerForRowTwo = isSecondRowAWin();
     console.log('answerForRowTwo', answerForRowTwo);
+    if (answerForRowTwo) {
+        return true
+    }
     const answerForThirdRow = isThirdRowAWin();
     console.log('answerForThirdRow', answerForThirdRow)
+    if (answerForThirdTwo) {
+        return true
+    }
     const AnswerForFirstColumn = isFirstColumnAWin()
     console.log('AnswerForFirstColumn', AnswerForFirstColumn)
+    if (AnswerForFirstColumn) {
+        return true
+    }
     const AnswerForSecondColumn = isSecondColumnAWin()
     console.log('AnswerForSecondColumn', AnswerForSecondColumn)
+    if (AnswerForSecindColumn) {
+        return true
+    }
     const AnswerForThirdColumn = isThirdColumnAWin()
     console.log('AnswerForThirdColumn', AnswerForThirdColumn)
+    if (AnswerForThirdColumn) {
+        return true
+    }
     const AnswerForDiagonalLineOne = isDiagonalLineOneAWin()
     console.log('AnswerForDiagonalLineOne', AnswerForDiagonalLineOne)
+    if (AnswerForDiagonalLineOne) {
+        return true
+    }
     const AnswerForDiagonalLineTwo = isDiagonalLineTwoAWin()
     console.log('AnswerForDiagonalLineTwo', AnswerForDiagonalLineTwo)
+    if (AnswerForDiagonalLineTwo) {
+        return true
+    }
 }
 
 function isFirstRowAWin() {
@@ -71,7 +96,7 @@ function isFirstRowAWin() {
         return;
         
     }
-    if (firstValue === playersLetter && secondValue === playerLetter && thirdValue === playerLetter) {
+    if (firstValue === playersLetter && secondValue === playersLetter && thirdValue === playersLetter) {
         console.log('they are all equal');
         return true;
     } else {
@@ -235,13 +260,16 @@ function OnTileClicked(NumberedTiles) {
     if (CanWriteToTile === false) {
         return;
     }
+
+    CheckIfXWinsOrO()
+
     ChangePlayerColor(ActiveTile);
 
     ChangeCurrentPlayer();
     
     SeeWhoIsTheWinner()
 
-    CheckIfXWinsOrO()
+    
 }
 window.onload = load;
 
