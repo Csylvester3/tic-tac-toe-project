@@ -1,0 +1,33 @@
+
+body{
+background-color: black;
+}
+.tile {
+    border: solid black 1px;
+    background-color:aliceblue;
+}
+#board {
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: 200px 200px 200px;
+    padding-left: 300px;
+}
+h1{
+    color: darkgreen;
+    padding-left: 500px;
+    font-size: 45px;
+}
+.tile{
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+
+}
+.player-one-color {
+    color: red;
+}
+.player-two-color {
+    color: blue;
+}
