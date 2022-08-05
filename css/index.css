@@ -31,3 +31,9 @@ h1{
 .player-two-color {
     color: blue;
 }
+h2{
+    border: solid white;
+    color: yellow;
+    font-size: 30px;
+    padding-left: 500px;
+}

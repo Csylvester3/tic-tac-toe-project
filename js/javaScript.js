@@ -6,8 +6,12 @@ const FirstPlayer = 'X';
 const SecondPlayer = 'O';
 let currentPlayer;
 let AllTilesPlayed
+let GameIsOver = false
 
-
+function FindH2(){
+    const H2Found = document.getElementById('h2')
+    return H2Found
+}
 const load = () => {
 
     // CheckToSeeWhoWon();
@@ -45,41 +49,49 @@ function CheckToSeeWhoWon() {
     console.log('answerForRowOne', answerForRowOne);
 
     if (answerForRowOne) {
-        return true
+        GameIsOver = true;
+        return true;
     }
     const answerForRowTwo = isSecondRowAWin();
     console.log('answerForRowTwo', answerForRowTwo);
     if (answerForRowTwo) {
+        GameIsOver = true;
         return true
     }
     const answerForThirdRow = isThirdRowAWin();
     console.log('answerForThirdRow', answerForThirdRow)
-    if (answerForThirdTwo) {
+    if (answerForThirdRow) {
+        GameIsOver = true;
         return true
     }
     const AnswerForFirstColumn = isFirstColumnAWin()
     console.log('AnswerForFirstColumn', AnswerForFirstColumn)
     if (AnswerForFirstColumn) {
+        GameIsOver = true;
         return true
     }
     const AnswerForSecondColumn = isSecondColumnAWin()
     console.log('AnswerForSecondColumn', AnswerForSecondColumn)
-    if (AnswerForSecindColumn) {
+    if (AnswerForSecondColumn) {
+        GameIsOver = true;
         return true
     }
     const AnswerForThirdColumn = isThirdColumnAWin()
     console.log('AnswerForThirdColumn', AnswerForThirdColumn)
     if (AnswerForThirdColumn) {
+        GameIsOver = true;
         return true
     }
     const AnswerForDiagonalLineOne = isDiagonalLineOneAWin()
     console.log('AnswerForDiagonalLineOne', AnswerForDiagonalLineOne)
     if (AnswerForDiagonalLineOne) {
+        GameIsOver = true;
         return true
     }
     const AnswerForDiagonalLineTwo = isDiagonalLineTwoAWin()
     console.log('AnswerForDiagonalLineTwo', AnswerForDiagonalLineTwo)
     if (AnswerForDiagonalLineTwo) {
+        GameIsOver = true;
         return true
     }
 }
@@ -108,6 +120,7 @@ function isFirstRowAWin() {
 
 }
 function isSecondRowAWin() {
+    const playersLetter = currentPlayer;
     const FourthValue = GameValue[3]
     const FithValue = GameValue[4]
     const SixthValue = GameValue[5]
@@ -115,7 +128,7 @@ function isSecondRowAWin() {
     if (FourthValue === null || FithValue === null || SixthValue === null) {
         return;
     }
-    if (FourthValue === playersLetter && FithValue === playersLetter === SixthValue === playersLetter) {
+    if (FourthValue === playersLetter && FithValue === playersLetter && SixthValue === playersLetter) {
         console.log('they are equal')
         return true
     }
@@ -126,6 +139,7 @@ function isSecondRowAWin() {
 }
 
 function isThirdRowAWin() {
+    const playersLetter = currentPlayer;
     seventhValue = GameValue[6]
     eightValue = GameValue[7]
     NinthValue = GameValue[8]
@@ -145,6 +159,7 @@ function isThirdRowAWin() {
     }
 }
 function isFirstColumnAWin() {
+    const playersLetter = currentPlayer;
     const [firstValue, , , FourthValue, , , SixthValue] = GameValue
    
     if (firstValue === null || FourthValue === null ||  SixthValue === null) {
@@ -162,6 +177,7 @@ function isFirstColumnAWin() {
     }
 }
 function isSecondColumnAWin() {
+    const playersLetter = currentPlayer;
     secondValue = GameValue[1]
     FithValue = GameValue[4]
     eightValue = GameValue[7]
@@ -182,6 +198,7 @@ function isSecondColumnAWin() {
 
 }
 function isThirdColumnAWin() {
+    const playersLetter = currentPlayer;
     thirdValue = GameValue[2]
     SixthValue = GameValue[5]
     NinthValue = GameValue[8]
@@ -201,6 +218,7 @@ function isThirdColumnAWin() {
     }
 }
 function isDiagonalLineOneAWin() {
+    const playersLetter = currentPlayer;
     const [firstVale, , , , FithValue, , , , NinthValue] = GameValue
    
     if (firstVale === null ||  FithValue === null ||  NinthValue === null) {
@@ -218,6 +236,7 @@ function isDiagonalLineOneAWin() {
     }
 }
 function isDiagonalLineTwoAWin() {
+    const playersLetter = currentPlayer;
     const [, , thirdValue, , FithValue, , seventhValue] = GameValue
    
     if (thirdValue === null ||  FithValue === null ||  seventhValue === null) {
@@ -252,30 +271,42 @@ function ShowXorO() {
 }
 function OnTileClicked(NumberedTiles) {
 
+    if (GameIsOver === true) {
+        return;
+    }
     const AllElemnts = findAllElemnts();
 
     const ActiveTile = AllElemnts[NumberedTiles];
 
   const CanWriteToTile = CanIWriteToGameTile(NumberedTiles) 
+  
     if (CanWriteToTile === false) {
+        
         return;
     }
 
-    CheckIfXWinsOrO()
+    WriteValueToTile(ActiveTile);
 
     ChangePlayerColor(ActiveTile);
+
+    const isThereAWinner = CheckIfXWinsOrO()
+   
+    if(isThereAWinner){
+        ShowWinnerPlayerOneOrTwo()
+        return;
+    }
+    
 
     ChangeCurrentPlayer();
     
     SeeWhoIsTheWinner()
 
-    
 }
 window.onload = load;
 
 
 function ChangePlayerColor(activeTile) {
-    activeTile.innerHTML = currentPlayer;
+    
     if (currentPlayer === FirstPlayer) {
         activeTile.className = ['tile player-one-color'];
         return
@@ -284,25 +315,18 @@ function ChangePlayerColor(activeTile) {
         activeTile.className = ['tile player-two-color'];
     }
 }
-function CheckIfXWinsOrO (){
-    debugger;
-    const WhoWinsXorO = CheckToSeeWhoWon(currentPlayer);
+function WriteValueToTile(activeTile) {
+    activeTile.innerHTML = currentPlayer;
+}
 
-    if (FirstPlayer !==  WhoWinsXorO) {
-        console.log('keep playing');
+function CheckIfXWinsOrO (){
+    
+    const isThereAWinner = CheckToSeeWhoWon(currentPlayer);
+
+    if (isThereAWinner) {
+       return true;
     }
-    if (SecondPlayer !==  WhoWinsXorO) {
-        console.log('Keep playing');
-    }
-    if (FirstPlayer ===  WhoWinsXorO) {
-        console.log('X wins!');
-    }
-    if (SecondPlayer ===  WhoWinsXorO) {
-        console.log('O wins ');
-    }
-    if (FirstPlayer && SecondPlayer !==  WhoWinsXorO) {
-        console.log('Draw!');
-    }
+    
 }
 function SeeWhoIsTheWinner(CheckToSeeWhoWon) {
 console.log(GameValue)
@@ -312,9 +336,14 @@ console.log(GameValue)
     
 }
 function resetGame() {
-    currentPlayer = '';
+    ActiveTile = '';
+    
 }
+function ShowWinnerPlayerOneOrTwo(isThereAWinner){
+    const ShowWinner = FindH2();
+    ShowWinner.innerHTML = ` the winner is ${currentPlayer}`
 
+}
 
 
 //module.exports = {    
